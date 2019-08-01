@@ -4,7 +4,7 @@ export default {
   fetchList(data) {
     return request('/classManage/fetchList', {
       method: 'POST',
-      data: { ...data },
+      body: JSON.stringify(data),
     });
   },
 

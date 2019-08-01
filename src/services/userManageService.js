@@ -4,7 +4,7 @@ export default {
   fetchList(data) {
     return request('/userManage/fetchList', {
       method: 'POST',
-      data,
+      body: JSON.stringify(data),
     });
   },
 };
