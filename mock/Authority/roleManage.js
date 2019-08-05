@@ -65,7 +65,7 @@ const treeData = [
 
 export default {
   'POST /roleManage/fetchList': (req, res) => {
-    const { page, pageSize } = req.data;
+    const { page, pageSize } = req.body;
     const list = initData.reduce((acc, curr, index) => {
       if (index >= (page - 1) * pageSize && index < page * pageSize) {
         acc.push(curr);

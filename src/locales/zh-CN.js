@@ -19,8 +19,7 @@ export default {
   'layout.user.link.terms': '条款',
   'app.home.introduce': '介绍',
   'app.forms.basic.title': '添加商品',
-  'app.forms.basic.description':
-    '请输入商品的详细信息',
+  'app.forms.basic.description': '请输入商品的详细信息',
   ...analysis,
   ...exception,
   ...form,

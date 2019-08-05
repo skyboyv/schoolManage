@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import productManageServices from '../../../../services/productManageService';
+import productManageServices from '../../../services/productManageService';
 
 export default {
   namespace: 'productManage',
@@ -14,7 +14,7 @@ export default {
     modalVisible: false,
     record: undefined,
     title: '',
-    curriculumList: [],
+    productList: [],
     // 检索条件
     productName: '',
   },
@@ -38,15 +38,12 @@ export default {
 
     *openModal({ payload }, { call, put }) {
       const { record, title } = payload;
-      const { data: curriculumList } = yield call(curriculumManageService.fetchAll);
-
       yield put({
         type: 'updateState',
         payload: {
           modalVisible: true,
           record,
           title,
-          curriculumList,
         },
       });
     },
@@ -59,15 +56,29 @@ export default {
         yield put({
           type: 'updateState',
           payload: {
-            modalVisible: false,
+            record: {
+              modalVisible: false,
+            },
           },
         });
+        yield put({ type: 'fetchList', payload: {} });
       }
     },
 
     *uploadPic({ payload }, { call, put }) {
       const { pic } = payload;
       const response = yield call(productManageServices.uploadPic, pic);
+      if (response.status === 200) {
+        message.success('上传成功');
+        yield put({
+          type: 'updateState',
+          payload: {
+            record: {
+              imgSrc: response.data,
+            },
+          },
+        });
+      }
     },
   },
   reducers: {

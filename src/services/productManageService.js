@@ -21,9 +21,9 @@ export default {
   },
 
   uploadPic(file) {
-    return request('productManage/uploadPic', {
+    return request('/productManage/uploadPic', {
       method: 'POST',
-      body: { file },
+      body: JSON.stringify(file),
     });
   },
 };

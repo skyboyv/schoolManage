@@ -23,6 +23,7 @@ export default {
     *fetchList({ payload }, { call, put }) {
       const { page = 1, pageSize = 10, userName = '' } = payload;
       const response = yield call(userService.fetchList, { page, pageSize, userName });
+      debugger;
       if (response.status === 200) {
         yield put({
           type: 'updateState',

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Button, Form, Icon, Input, Modal, Select, message, Upload } from 'antd';
+import { Button, Form, Icon, Input, Modal, message, Upload, InputNumber } from 'antd';
 
 @connect(({ productManage }) => ({
   record: productManage.record,
@@ -12,7 +12,6 @@ import { Button, Form, Icon, Input, Modal, Select, message, Upload } from 'antd'
 export default class ProductModal extends PureComponent {
   state = {
     loading: false,
-    imageUrl,
   };
 
   onCancel = () => {
@@ -20,7 +19,6 @@ export default class ProductModal extends PureComponent {
     dispatch({
       type: 'productManage/updateState',
       payload: {
-        viewContent: '',
         modalVisible: false,
       },
     });
@@ -103,10 +101,9 @@ export default class ProductModal extends PureComponent {
       modalVisible,
       record,
       title,
-      curriculumList,
       form: { getFieldDecorator },
     } = this.props;
-    const { loading, imageUrl } = this.state;
+    const { loading } = this.state;
     const formItemLayout = {
       labelCol: {
         xs: { span: 16 },
@@ -140,41 +137,44 @@ export default class ProductModal extends PureComponent {
         ]}
       >
         <Form {...formItemLayout}>
-          <Form.Item label="课程名称">
-            {getFieldDecorator('productName', {
-              initialValue: record && record.productName,
-            })(
-              <Select mode="multiple">
-                {curriculumList &&
-                  curriculumList.map(item => {
-                    return (
-                      <Select.Option key={item.curriculumId}>{item.curriculumName}</Select.Option>
-                    );
-                  })}
-              </Select>
-            )}
-          </Form.Item>
-          <Form.Item label="班级名称">
+          <Form.Item label="商品名称">
             {getFieldDecorator('productName', {
               initialValue: record && record.productName,
             })(<Input />)}
           </Form.Item>
-          <Upload
-            name="avatar"
-            listType="picture-card"
-            className="avatar-uploader"
-            accept="image/.jpg,.png,JPG,.PNG"
-            showUploadList={false}
-            action={this.uploadPic.bind(this)}
-            beforeUpload={this.beforeUpload.bind(this)}
-            onChange={this.handleChange.bind(this)}
-          >
-            {imageUrl ? (
-              <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
-            ) : (
-              uploadButton
-            )}
-          </Upload>
+          <Form.Item label="商品数量">
+            {getFieldDecorator('number', {
+              initialValue: record && record.number,
+            })(<InputNumber />)}
+          </Form.Item>
+          <Form.Item label="商品价格">
+            {getFieldDecorator('price', {
+              initialValue: record && record.price,
+            })(<InputNumber />)}
+          </Form.Item>
+          <Form.Item label="兑换地点">
+            {getFieldDecorator('convertAddr', {
+              initialValue: record && record.convertAddr,
+            })(<Input />)}
+          </Form.Item>
+          <Form.Item label="上传图片">
+            <Upload
+              name="avatar"
+              listType="picture-card"
+              className="avatar-uploader"
+              accept="image/.jpg,.png,JPG,.PNG"
+              showUploadList={false}
+              action={this.uploadPic.bind(this)}
+              beforeUpload={this.beforeUpload.bind(this)}
+              onChange={this.handleChange.bind(this)}
+            >
+              {record && record.imgSrc ? (
+                <img src={record.imgSrc} alt="avatar" style={{ width: '102px', height: '102px' }} />
+              ) : (
+                uploadButton
+              )}
+            </Upload>
+          </Form.Item>
         </Form>
       </Modal>
     );

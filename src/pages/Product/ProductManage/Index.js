@@ -101,7 +101,7 @@ export default class Index extends PureComponent {
 
   render() {
     const {
-      productManage: { list, selectedRow, modalVisible },
+      productManage: { list, modalVisible },
       loading,
     } = this.props;
 
@@ -113,13 +113,13 @@ export default class Index extends PureComponent {
               <Button
                 className={styles.btnStyle}
                 type="primary"
-                onClick={this.openModal.bind(this, undefined, '新增班级')}
+                onClick={this.openModal.bind(this, undefined, '新增商品')}
               >
                 新增
               </Button>
             </Col>
             <Col span={8} style={{ textAlign: 'right' }}>
-              <Search onSearch={this.searchHandler} placeholder="请输入班级名称" />
+              <Search onSearch={this.searchHandler} placeholder="请输入商品名称" />
             </Col>
           </Row>
         </div>
@@ -139,44 +139,40 @@ export default class Index extends PureComponent {
                       <Card
                         hoverable
                         className={styles.card}
+                        bodyStyle={{ height: '180px' }}
                         actions={[<a key="option1">编辑</a>, <a key="option2">删除</a>]}
                       >
                         <Card.Meta
                           avatar={
                             <img
+                              style={{ width: '100px', height: '100px' }}
                               alt=""
                               className={styles.cardAvatar}
-                              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                              src={item.imgSrc}
                             />
                           }
-                          title={`${item.productName} 上课时间:9:00 - 18:00`}
+                          title={`${item.productName}`}
                           description={
                             <div>
                               <Row gutter={24}>
                                 <Col span={12}>
-                                  <span>课程名称: {`高数,语文,英语,化学`}</span>
+                                  <span>商品名称: {`${item.productName}`}</span>
                                 </Col>
                                 <Col span={12}>
-                                  <span>所属校区: {`重庆大学A区`}</span>
+                                  <span>商品数量: {`${item.number}`}</span>
                                 </Col>
                               </Row>
                               <Row gutter={24}>
                                 <Col span={12}>
-                                  <span>授课教师: {`高小明,彭永淳`}</span>
+                                  <span>商品价格: {`${item.price}`}</span>
                                 </Col>
                                 <Col span={12}>
-                                  <span>收费: {`998元`}</span>
+                                  <span>兑换地点: {`${item.convertAddr}`}</span>
                                 </Col>
-                              </Row>
-                              <Row>
-                                <Col span={24}>适应年龄段: 20岁 - 25岁</Col>
                               </Row>
                               <Row gutter={24}>
                                 <Col span={24}>
-                                  <span>
-                                    班级特征:{' '}
-                                    {`在中台产品的研发过程中，会出现不同的设计规范和实现方式，但其中往往存在很多类似的页面和组件，这些类似的组件会被抽`}
-                                  </span>
+                                  <span>商品介绍:{`${item.desc}`}</span>
                                 </Col>
                               </Row>
                             </div>

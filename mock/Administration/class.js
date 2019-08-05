@@ -19,7 +19,7 @@ const initData = [
 
 export default {
   'POST /classManage/fetchList': (req, res) => {
-    const { page, pageSize, className } = req.data;
+    const { page, pageSize, className } = req.body;
     const list = initData.reduce((acc, curr, index) => {
       if (index >= (page - 1) * pageSize && index < page * pageSize) {
         acc.push(curr);

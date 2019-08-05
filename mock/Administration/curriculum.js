@@ -25,7 +25,7 @@ const initData = [
 
 export default {
   'POST /curriculumManage/fetchList': (req, res) => {
-    const { page, pageSize, curriculumName } = req.data;
+    const { page, pageSize, curriculumName } = req.body;
     const list = initData.reduce((acc, curr, index) => {
       if (index >= (page - 1) * pageSize && index < page * pageSize) {
         acc.push(curr);

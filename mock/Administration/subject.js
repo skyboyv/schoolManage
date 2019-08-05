@@ -10,7 +10,7 @@ const initData = [
 ];
 export default {
   'POST /subjectManage/fetchList': (req, res) => {
-    const { page, pageSize, subjectName } = req.data;
+    const { page, pageSize, subjectName } = req.body;
     const list = initData.reduce((acc, curr, index) => {
       if (index >= (page - 1) * pageSize && index < page * pageSize) {
         acc.push(curr);

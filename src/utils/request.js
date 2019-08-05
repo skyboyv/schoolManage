@@ -1,9 +1,5 @@
-/**
- * request 网络请求工具
- * 更详细的api文档: https://bigfish.alipay.com/doc/api#request
- */
-import { extend } from 'umi-request';
-import { notification } from 'antd';
+import fetch from 'dva/fetch';
+import { message } from 'antd';
 import router from 'umi/router';
 
 const codeMessage = {
@@ -27,13 +23,13 @@ const codeMessage = {
 /**
  * 异常处理程序
  */
-const errorHandler = error => {
-  const { response = {} } = error;
-  const errortext = codeMessage[response.status] || response.statusText;
-  const { status, url } = response;
+const errorHandler = response => {
+  const errortext = codeMessage[response.status] || response.message;
+
+  const { status } = response;
 
   if (status === 401) {
-    notification.error({
+    message.error({
       message: '未登录或登录已过期，请重新登录。',
     });
     // @HACK
@@ -43,10 +39,6 @@ const errorHandler = error => {
     });
     return;
   }
-  notification.error({
-    message: `请求错误 ${status}: ${url}`,
-    description: errortext,
-  });
   // environment should not be used
   if (status === 403) {
     router.push('/exception/403');
@@ -61,15 +53,29 @@ const errorHandler = error => {
   }
 };
 
-/**
- * 配置request请求时的默认参数
- */
-const request = extend({
-  prefix: 'http://localhost:8000',
-  errorHandler, // 默认错误处理
-  credentials: 'include', // 默认请求是否带上cookie
-  requestType: 'JSON',
-  charset: 'utf8',
-});
+const request = async (url, options) => {
+  const defaultOptions = {
+    method: 'GET',
+    credentials: 'include',
+  };
+
+  const newOptions = { ...defaultOptions, ...options };
+  newOptions.headers = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json; charset=utf-8',
+    ...newOptions.headers,
+  };
+  const response = await fetch(url, { ...newOptions });
+
+  try {
+    const result = response.json();
+    if (result.status !== 200) {
+      errorHandler(result);
+    }
+    return result;
+  } catch (e) {
+    throw e;
+  }
+};
 
 export default request;
