@@ -1,25 +1,24 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Button, Col, Input, Popconfirm, Row, DatePicker, Table } from 'antd';
+import { Button, Col, Input, Row, Table } from 'antd';
 import moment from 'moment';
 import styles from '../../../public/css/index.less';
 
-const { RangePicker } = DatePicker;
-@connect(({ financialRecord, loading }) => ({
-  financialRecord,
-  loading: loading.effects['financialRecord/fetchList'],
+@connect(({ studentRecord, loading }) => ({
+  studentRecord,
+  loading: loading.effects['studentRecord/fetchList'],
 }))
 export default class Index extends PureComponent {
   state = {
-    school: '',
-    startTime: moment().startOf('month'),
-    endTime: moment().endOf('month'),
+    curriculum: '', // 课程
+    classes: '', // 班级
+    student: '', // 学生
   };
 
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'financialRecord/fetchList',
+      type: 'studentRecord/fetchList',
       payload: {},
     });
   }
@@ -27,7 +26,7 @@ export default class Index extends PureComponent {
   clickRow = record => {
     const {
       dispatch,
-      financialRecord: { selectedRowKeys },
+      studentRecord: { selectedRowKeys },
     } = this.props;
     const keyIndex = selectedRowKeys.findIndex(item => item === record.id);
     if (keyIndex > -1) {
@@ -42,49 +41,67 @@ export default class Index extends PureComponent {
   };
 
   exportExcel = () => {
-    const { school, startTime, endTime } = this.state;
+    const { curriculum, classes, student } = this.state;
     const { dispatch } = this.props;
     dispatch({
-      type: 'financialRecord/exportExcel',
+      type: 'studentRecord/exportExcel',
       payload: {
-        school,
-        startTime,
-        endTime,
+        curriculum,
+        classes,
+        student,
       },
     });
   };
 
   searchHandler = () => {
-    const { school, startTime, endTime } = this.state;
+    const { curriculum, classes, student } = this.state;
     const { dispatch } = this.props;
     dispatch({
-      type: 'financialRecord/fetchList',
+      type: 'studentRecord/fetchList',
       payload: {
-        school,
-        startTime,
-        endTime,
+        curriculum,
+        classes,
+        student,
       },
     });
   };
 
-  pickerOnChange = (value, dateString) => {
+  curriculumOnChange = value => {
     this.setState({
-      startTime: dateString[0],
-      endTime: dateString[1],
+      curriculum: value,
     });
   };
 
-  schoolOnChange = value => {
+  classesOnChange = value => {
     this.setState({
-      school: value,
+      classes: value,
+    });
+  };
+
+  studentOnChange = value => {
+    this.setState({
+      student: value,
+    });
+  };
+
+  printRecord = () => {
+    const { curriculum, classes, student } = this.state;
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'studentRecord/printRecord',
+      payload: {
+        curriculum,
+        classes,
+        student,
+      },
     });
   };
 
   render() {
     const {
-      financialRecord: { page, pageSize, total, list, loading },
+      studentRecord: { page, pageSize, total, list, loading },
     } = this.props;
-    const { school, startTime, endTime } = this.state;
+    const { curriculum, classes, student } = this.state;
     const columns = [
       {
         title: 'ID',
@@ -97,53 +114,52 @@ export default class Index extends PureComponent {
         key: 'studentName',
       },
       {
-        title: '缴费项目',
-        dataIndex: 'paymentProject',
-        key: 'paymentProject',
+        title: '报名课程',
+        dataIndex: 'curriculumName',
+        key: 'curriculumName',
       },
       {
-        title: '缴费金额',
-        dataIndex: 'money',
-        key: 'money',
+        title: '班级',
+        dataIndex: 'classes',
+        key: 'classes',
       },
       {
-        title: '缴费时间',
+        title: '报名时间',
         dataIndex: 'time',
         key: 'time',
-        render: text => (text ? moment(text, 'YYYY-MM-DD') : ''),
-      },
-      {
-        title: '所在校区',
-        dataIndex: 'school',
-        key: 'school',
+        render: text => (text ? moment(text).format('YYYY-MM-DD') : ''),
       },
     ];
     return (
       <div>
         <div className={styles.ListButton}>
           <Row>
-            <Col span={8}>
-              <Button
-                style={{ paddingRight: 8 }}
-                type="primary"
-                onClick={this.exportExcel.bind(this)}
-              >
+            <Col span={6}>
+              <Button type="primary" onClick={this.exportExcel.bind(this)}>
                 导出Excel
               </Button>
+              <Button type="primary" onClick={this.printRecord.bind(this)}>
+                打印
+              </Button>
             </Col>
-            <Col span={16} style={{ textAlign: 'right' }}>
+            <Col span={18} style={{ textAlign: 'right' }}>
               <Input
-                style={{ width: '300px', marginRight: 8 }}
-                defaultValue={school}
-                placeholder="请输入校区名称"
-                onChange={this.schoolOnChange.bind(this)}
+                style={{ width: '150px', marginRight: '8px' }}
+                defaultValue={curriculum}
+                placeholder="请输入课程名称"
+                onChange={this.curriculumOnChange.bind(this)}
               />
-              <RangePicker
-                style={{ width: '300px', marginRight: 8 }}
-                onChange={this.pickerOnChange.bind(this)}
-                placeholder={['请输入开始时间', '请输入结束时间']}
-                defaultValue={[startTime, endTime]}
-                format="YYYY-MM-DD"
+              <Input
+                style={{ width: '150px', marginRight: '8px' }}
+                defaultValue={classes}
+                placeholder="请输入班级名称"
+                onChange={this.classesOnChange.bind(this)}
+              />
+              <Input
+                style={{ width: '150px', marginRight: '8px' }}
+                defaultValue={student}
+                placeholder="请输入学生名称"
+                onChange={this.studentOnChange.bind(this)}
               />
               <Button type="primary" onClick={this.searchHandler.bind(this)}>
                 搜索

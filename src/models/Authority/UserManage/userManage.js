@@ -1,4 +1,4 @@
-import { message } from 'antd/lib/index';
+import { message } from 'antd';
 import userService from '../../../services/userManageService';
 import roleManageService from '../../../services/roleManageService';
 
