@@ -1,9 +1,9 @@
 import { message } from 'antd/lib/index';
-import userService from '../../../services/userManageService';
-import roleManageService from '../../../services/roleManageService';
+import covertService from '../../../services/covertManageService';
+import productManageService from '../../../services/productManageService';
 
 export default {
-  namespace: 'userManage',
+  namespace: 'covertManage',
   state: {
     list: [],
     total: 0,
@@ -15,14 +15,14 @@ export default {
     modalVisible: false,
     record: undefined,
     title: '',
-    roleList: [],
+    productList: [],
     // 检索条件
-    userName: '',
+    covertName: '',
   },
   effects: {
     *fetchList({ payload }, { call, put }) {
-      const { page = 1, pageSize = 10, userName = '' } = payload;
-      const response = yield call(userService.fetchList, { page, pageSize, userName });
+      const { page = 1, pageSize = 10, covertName = '' } = payload;
+      const response = yield call(covertService.fetchList, { page, pageSize, covertName });
       if (response.status === 200) {
         yield put({
           type: 'updateState',
@@ -31,7 +31,7 @@ export default {
             total: response.total,
             page,
             pageSize,
-            userName,
+            covertName,
           },
         });
       }
@@ -39,23 +39,23 @@ export default {
 
     *openModal({ payload }, { call, put }) {
       const { record, title } = payload;
-      const { data: roleList } = yield call(roleManageService.fetchAll);
+      const { data: productList } = yield call(productManageService.fetchAll);
       yield put({
         type: 'updateState',
         payload: {
           modalVisible: true,
           record,
           title,
-          roleList,
+          productList,
         },
       });
     },
 
     *save({ payload }, { call, put }) {
       const { values } = payload;
-      const response = yield call(userService.add, values);
+      const response = yield call(covertService.add, values);
       if (response.status === 200) {
-        message.success('新增成功');
+        message.success('兑换成功');
         yield put({
           type: 'updateState',
           payload: {

@@ -103,6 +103,16 @@ export default [
           },
         ],
       },
+      {
+        path: '/FinancialRecord',
+        name: '财务记录',
+        component: './FinancialRecord',
+      },
+      {
+        path: '/StudentRecord',
+        name: '学生记录',
+        component: './StudentRecord',
+      },
       //  editor
       {
         component: '404',

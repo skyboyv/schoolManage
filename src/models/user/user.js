@@ -11,7 +11,6 @@ export default {
   effects: {
     *fetch(_, { call, put }) {
       const response = yield call(queryUsers);
-      debugger;
       yield put({
         type: 'save',
         payload: response,

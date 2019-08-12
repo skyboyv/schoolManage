@@ -140,17 +140,35 @@ export default class ProductModal extends PureComponent {
           <Form.Item label="商品名称">
             {getFieldDecorator('productName', {
               initialValue: record && record.productName,
+              rules: [
+                {
+                  required: true,
+                  message: '请输入商品名称',
+                },
+              ],
             })(<Input />)}
           </Form.Item>
           <Form.Item label="商品数量">
             {getFieldDecorator('number', {
               initialValue: record && record.number,
-            })(<InputNumber />)}
+              rules: [
+                {
+                  required: true,
+                  message: '请输入商品数量',
+                },
+              ],
+            })(<InputNumber step={1} min={0} style={{ width: '100%' }} />)}
           </Form.Item>
           <Form.Item label="商品价格">
             {getFieldDecorator('price', {
               initialValue: record && record.price,
-            })(<InputNumber />)}
+              rules: [
+                {
+                  required: true,
+                  message: '请输入商品价格',
+                },
+              ],
+            })(<InputNumber step={0.01} min={0} style={{ width: '100%' }} />)}
           </Form.Item>
           <Form.Item label="兑换地点">
             {getFieldDecorator('convertAddr', {

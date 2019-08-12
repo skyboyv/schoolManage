@@ -19,10 +19,7 @@ const initData = [
 
 export default {
   'POST /userManage/fetchList': (req, res) => {
-    console.log(req.body);
-    const page = 1;
-    const pageSize = 10;
-    // const { page = 1, pageSize = 10, userName } = req.body;
+    const { page = 1, pageSize = 10, userName } = req.body;
     const list = initData.reduce((acc, curr, index) => {
       if (index >= (page - 1) * pageSize && index < page * pageSize) {
         acc.push(curr);

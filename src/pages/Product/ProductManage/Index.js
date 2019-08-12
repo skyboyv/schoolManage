@@ -50,41 +50,10 @@ export default class Index extends PureComponent {
   };
 
   deleteByIds = ids => {
-    const {
-      dispatch,
-      productManage: { selectedRowKeys },
-    } = this.props;
-    dispatch({
-      type: 'productManage/deleteByIds',
-      payload: { ids: ids || selectedRowKeys },
-    });
-  };
-
-  clickRow = record => {
-    const {
-      dispatch,
-      productManage: { selectedRowKeys, selectedRow },
-    } = this.props;
-    const keyIndex = selectedRowKeys.findIndex(item => item === record.productId);
-    const rowIndex = selectedRow.findIndex(item => item.productId === record.productId);
-    if (keyIndex > -1) {
-      selectedRowKeys.splice(keyIndex, 1);
-      selectedRow.splice(rowIndex, 1);
-    } else {
-      selectedRowKeys.push(record.productId);
-      selectedRow.push(record);
-    }
-    dispatch({
-      type: 'productManage/updateState',
-      payload: { selectedRowKeys, selectedRow },
-    });
-  };
-
-  onSelectChange = (selectedRowKeys, selectedRow) => {
     const { dispatch } = this.props;
     dispatch({
-      type: 'productManage/updateState',
-      payload: { selectedRowKeys, selectedRow },
+      type: 'productManage/deleteByIds',
+      payload: { ids },
     });
   };
 
@@ -140,7 +109,17 @@ export default class Index extends PureComponent {
                         hoverable
                         className={styles.card}
                         bodyStyle={{ height: '180px' }}
-                        actions={[<a key="option1">编辑</a>, <a key="option2">删除</a>]}
+                        actions={[
+                          <a
+                            key="option1"
+                            onClick={this.openModal.bind(this, item, '编辑商品信息')}
+                          >
+                            编辑
+                          </a>,
+                          <a key="option2" onClick={this.deleteByIds.bind(this, [item.id])}>
+                            删除
+                          </a>,
+                        ]}
                       >
                         <Card.Meta
                           avatar={
