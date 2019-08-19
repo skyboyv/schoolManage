@@ -113,6 +113,27 @@ export default [
         name: '学生记录',
         component: './StudentRecord',
       },
+      {
+        path: '/ActionMessageManage',
+        name: '活动信息管理',
+        routes: [
+          {
+            path: '/ActionMessageManage/ParentContent',
+            name: '家长内容管理',
+            component: './ActionMessageManage/ParentContent',
+          },
+          {
+            path: '/ActionMessageManage/StudentContent',
+            name: '学生内容管理',
+            component: './ActionMessageManage/StudentContent',
+          },
+          {
+            path: '/ActionMessageManage/SchoolContent',
+            name: '学校内容管理',
+            component: './ActionMessageManage/SchoolContent',
+          },
+        ],
+      },
       //  editor
       {
         component: '404',

@@ -2,27 +2,27 @@ import request from '../utils/request';
 
 export default {
   fetchList(data) {
-    return request('/roleManage/fetchList', {
+    return request('/studentContent/fetchList', {
       method: 'POST',
       body: JSON.stringify(data),
     });
   },
 
   fetchInfo(id) {
-    return request(`/roleManage/fetchInfo?id=${id}`, {
+    return request(`/studentContent/fetchInfo?id=${id}`, {
       method: 'GET',
     });
   },
 
   save(data) {
-    return request('/roleManage/save', {
+    return request('/studentContent/save', {
       method: 'POST',
       body: JSON.stringify(data),
     });
   },
 
   update(data, id) {
-    return request(`/roleManage/update?id=${id}`, {
+    return request(`/studentContent/update?id=${id}`, {
       method: 'PUT',
       body: JSON.stringify(data),
     });

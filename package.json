@@ -53,6 +53,7 @@
     "antd": "^3.16.1",
     "bizcharts": "^3.4.3",
     "bizcharts-plugin-slider": "^2.1.1-beta.1",
+    "braft-editor": "^2.3.7",
     "classnames": "^2.2.6",
     "dva": "^2.4.1",
     "enquire-js": "^0.2.1",
@@ -80,7 +81,9 @@
     "umi": "^2.4.4",
     "umi-plugin-react": "^1.7.2",
     "umi-request": "^1.0.5",
-    "universal-cookie": "^3.1.0"
+    "universal-cookie": "^3.1.0",
+    "braft-utils": "latest",
+    "braft-finder": "latest"
   },
   "devDependencies": {
     "@types/history": "^4.7.2",

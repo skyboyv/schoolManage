@@ -40,6 +40,25 @@ export default class Index extends PureComponent {
     });
   };
 
+  handlePageOnChange = current => {
+    const {
+      dispatch,
+      classManage: { pageSize },
+    } = this.props;
+    dispatch({
+      type: 'userManage/fetchList',
+      payload: { page: current, pageSize },
+    });
+  };
+
+  handlePageOnShowSizeChange = (current, newSize) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'userManage/fetchList',
+      payload: { page: current, pageSize: newSize },
+    });
+  };
+
   exportExcel = () => {
     const { curriculum, classes, student } = this.state;
     const { dispatch } = this.props;
